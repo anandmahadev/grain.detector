@@ -25,7 +25,11 @@ st.markdown("""
         border: 1px solid #334155;
         transition: transform 0.3s ease;
     }
-    .metric-card:hover { transform: translateY(-5px); }
+    .metric-card:hover { 
+        transform: translateY(-5px); 
+        box-shadow: 0 15px 20px -5px rgba(59, 130, 246, 0.4); 
+        border-color: #60a5fa; 
+    }
     .metric-value { 
         font-size: 3.5rem; 
         font-weight: 800; 
