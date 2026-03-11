@@ -1,7 +1,13 @@
 import os
 import urllib.request
 import shutil
+import logging
 from ultralytics import YOLO
+
+import numpy as np
+import cv2
+
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
 # 1. Setup Dataset Directory Structure
 dataset_dir = os.path.abspath("sample_rice_pepper_dataset")
@@ -9,11 +15,8 @@ dirs = ['images/train', 'images/val', 'labels/train', 'labels/val']
 for d in dirs:
     os.makedirs(os.path.join(dataset_dir, d), exist_ok=True)
 
-import numpy as np
-import cv2
-
 # 3. Generate Synthetic Images & Create Bounding Boxes
-print("Generating sample images...")
+logging.info("Generating sample images...")
 # We use synthetic images (colored squares) for demo purposes to avoid internet download blocks.
 colors = {0: (200, 200, 200), 1: (50, 50, 50)} # Rice (light), Pepper (dark)
 
@@ -44,7 +47,7 @@ for class_id in range(2):
         # Duplicate to validation set
         shutil.copy(img_train, img_val)
         shutil.copy(lbl_train, lbl_val)
-        print(f"[Done] Generated {img_name}")
+        logging.info(f"[Done] Generated {img_name}")
 
 # 4. Create data.yaml mapping file
 yaml_content = f"""path: {dataset_dir}
@@ -57,10 +60,10 @@ yaml_path = os.path.join(dataset_dir, "data.yaml")
 with open(yaml_path, 'w') as f:
     f.write(yaml_content)
 
-print(f"\nDataset fully prepared at: {dataset_dir}")
-print("===================================================")
-print("🚀 STARTING YOLOv8 CUSTOM TRAINING PIPELINE")
-print("===================================================")
+logging.info(f"\nDataset fully prepared at: {dataset_dir}")
+logging.info("===================================================")
+logging.info("🚀 STARTING YOLOv8 CUSTOM TRAINING PIPELINE")
+logging.info("===================================================")
 
 # 5. Execute Training
 model = YOLO("yolov8n.pt") # Start with base nano model
@@ -80,8 +83,8 @@ final_model_dest = os.path.abspath("custom_rice_pepper_model.pt")
 
 if os.path.exists(best_model_path):
     shutil.copy(best_model_path, final_model_dest)
-    print("===================================================")
-    print(f"✅ TRAINING COMPLETE! Model saved as:\n{final_model_dest}")
-    print("===================================================")
+    logging.info("===================================================")
+    logging.info(f"✅ TRAINING COMPLETE! Model saved as:\n{final_model_dest}")
+    logging.info("===================================================")
 else:
-    print("⚠️ Training finished but could not locate best.pt!")
+    logging.warning("⚠️ Training finished but could not locate best.pt!")
