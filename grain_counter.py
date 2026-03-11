@@ -73,8 +73,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-GRAIN_TYPES = ['Rice', 'Wheat', 'Corn', 'Millet', 'Seeds']
-
 @st.cache_resource
 def load_model():
     # If the custom trained model exists from our script, use it directly!
@@ -84,17 +82,22 @@ def load_model():
         # Ensure we set the classes explicitly for the UI mappings
         if hasattr(model, 'model') and hasattr(model.model, 'names'):
             model.model.names = {0: 'Rice', 1: 'Pepper'}
-        GRAIN_TYPES.clear()
-        GRAIN_TYPES.extend(['Rice', 'Pepper'])
         return model
 
     # Otherwise, fallback to the base model with mock categories.
     model = YOLO(APP_CONFIG["base_model"]) 
     if hasattr(model, 'model') and hasattr(model.model, 'names'):
-        model.model.names = {i: GRAIN_TYPES[i % len(GRAIN_TYPES)] for i in range(100)}
+        # Mock class names for demonstration purposes
+        mock_names = ['Rice', 'Wheat', 'Corn', 'Millet', 'Seeds']
+        model.model.names = {i: mock_names[i % len(mock_names)] for i in range(100)}
     return model
 
 model = load_model()
+GRAIN_TYPES = list(set(model.names.values()) if hasattr(model, 'names') else ['Rice', 'Pepper'])
+# If YOLO stored them internally in model.model.names
+if hasattr(model, 'model') and hasattr(model.model, 'names'):
+    # ensure deterministic order from dict iteration if possible, else sort it or just use values
+    GRAIN_TYPES = list(dict.fromkeys(model.model.names.values()))
 
 # --- SIDEBAR: SETTINGS ---
 st.sidebar.markdown("<h1 style='text-align: center;'>🌾 Settings</h1>", unsafe_allow_html=True)
@@ -185,14 +188,15 @@ if mode == "🖼️ Image Upload":
     col_up, col_res = st.columns([1, 2], gap="large")
     with col_up:
         file = st.file_uploader("Upload an image...", type=["jpg", "jpeg", "png"])
-        if file: st.image(file, "Original", use_container_width=True)
+        if file: st.image(file, caption="Original", use_container_width=True)
             
     with col_res:
         if file:
-            img_array = np.array(Image.open(file).convert('RGB'))
+            # Convert RGB PIL image to BGR for YOLO processing
+            img_array = cv2.cvtColor(np.array(Image.open(file).convert('RGB')), cv2.COLOR_RGB2BGR)
             with st.spinner("🔍 Processing..."):
                 ann_img, counts = process_frame(img_array)
-                st.image(ann_img, "YOLOv8 Annotated", use_container_width=True)
+                st.image(ann_img, caption="YOLOv8 Annotated", channels="BGR", use_container_width=True)
     if file: render_dashboard(counts)
 
 elif mode == "🎥 Live Webcam":
