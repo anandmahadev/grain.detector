@@ -19,3 +19,10 @@ Alternatively, manually install via pip:
 pip install -r requirements.txt
 streamlit run grain_counter.py
 ```
+
+## Running Tests
+Run the established suite via Pytest:
+```bash
+pip install pytest
+pytest tests/
+```
