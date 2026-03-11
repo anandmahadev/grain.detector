@@ -104,19 +104,21 @@ if not os.path.exists("custom_rice_pepper_model.pt"):
 else:
     st.sidebar.success("Custom Rice & Pepper Model Loaded! 🎯")
 
+from typing import Dict, Tuple
+
 # --- HELPER FUNCTIONS ---
-def process_frame(img_array):
+def process_frame(img_array: np.ndarray) -> Tuple[np.ndarray, Dict[str, int]]:
     results = model.predict(img_array, conf=conf_threshold, iou=iou_threshold, verbose=False)
     annotated_img = results[0].plot()
     
-    counts = {grain: 0 for grain in GRAIN_TYPES}
+    counts: Dict[str, int] = {grain: 0 for grain in GRAIN_TYPES}
     for box in results[0].boxes:
         cls_id = int(box.cls[0].item())
         counts[GRAIN_TYPES[cls_id % len(GRAIN_TYPES)]] += 1
         
     return annotated_img, counts
 
-def render_dashboard(counts):
+def render_dashboard(counts: Dict[str, int]) -> None:
     st.divider()
     st.markdown("<h2>📊 Live Analytics Dashboard</h2>", unsafe_allow_html=True)
     
