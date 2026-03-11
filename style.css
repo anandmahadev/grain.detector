@@ -1,44 +1,146 @@
-.block-container { padding-top: 1rem; padding-bottom: 2rem; }
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;700&display=swap');
+
+:root {
+    --bg-dark: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --accent-primary: #3b82f6;
+    --accent-secondary: #06b6d4;
+    --accent-success: #10b981;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+.block-container { 
+    padding-top: 2rem; 
+    padding-bottom: 3rem; 
+    max-width: 95rem;
+}
+
+/* Glassmorphism Card System */
 .metric-card {
-    background: linear-gradient(135deg, #1e293b, #0f172a);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     text-align: center;
-    border: 1px solid #334155;
-    transition: transform 0.3s ease;
+    border: 1px solid var(--glass-border);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
 }
+
+.metric-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
 .metric-card:hover { 
-    transform: translateY(-5px); 
-    box-shadow: 0 15px 20px -5px rgba(59, 130, 246, 0.4); 
-    border-color: #60a5fa; 
+    transform: translateY(-8px) scale(1.02); 
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+    border-color: var(--accent-primary);
 }
+
+.metric-card:hover::before {
+    opacity: 1;
+}
+
 .metric-value { 
-    font-size: 3.5rem; 
+    font-size: 4rem; 
     font-weight: 800; 
-    background: -webkit-linear-gradient(45deg, #4ade80, #3b82f6);
+    font-family: 'Outfit', sans-serif;
+    background: linear-gradient(to right, #60a5fa, #22d3ee);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
+    margin: 0.5rem 0;
 }
+
 .metric-label { 
-    font-size: 1.1rem; 
-    color: #94a3b8; 
+    font-size: 0.9rem; 
+    color: var(--text-secondary); 
     text-transform: uppercase; 
-    letter-spacing: 1.5px;
-    margin-bottom: 10px;
+    letter-spacing: 2px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
 }
+
+/* Custom Download Button Styling */
 .stDownloadButton > button {
     width: 100%;
-    border-radius: 8px;
-    background: linear-gradient(90deg, #10b981, #059669);
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent-success), #059669);
     color: white;
-    font-weight: bold;
-    padding: 12px;
+    font-weight: 700;
+    padding: 0.8rem 1.5rem;
     border: none;
-    transition: all 0.3s;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.39);
 }
+
 .stDownloadButton > button:hover {
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.5);
-    transform: scale(1.02);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
+    transform: translateY(-2px);
 }
-h1, h2, h3 { color: #f8fafc; font-family: 'Inter', sans-serif; }
+
+/* Typography Overrides */
+h1, h2, h3 { 
+    color: var(--text-primary); 
+    font-family: 'Outfit', sans-serif; 
+    font-weight: 700;
+}
+
+p {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Input Radio Enhancement */
+.stRadio > div {
+    background: var(--card-bg);
+    padding: 1rem;
+    border-radius: 15px;
+    border: 1px solid var(--glass-border);
+}
+
+/* Sidebar Styling */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    border-right: 1px solid var(--glass-border);
+}
+
+.main-title {
+    text-align: center;
+    font-size: 3.5rem !important;
+    background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0px !important;
+}
+
+.sidebar-header {
+    text-align: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+.sub-title {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}

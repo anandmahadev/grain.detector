@@ -57,7 +57,7 @@ if hasattr(model, 'model') and hasattr(model.model, 'names'):
     GRAIN_TYPES = list(dict.fromkeys(model.model.names.values()))
 
 def render_sidebar():
-    st.sidebar.markdown("<h1 style='text-align: center;'>🌾 Settings</h1>", unsafe_allow_html=True)
+    st.sidebar.markdown("<div class='sidebar-header'>🌾 Settings</div>", unsafe_allow_html=True)
     conf = st.sidebar.slider("Confidence Threshold", 0.1, 0.9, 0.25, 0.05)
     iou = st.sidebar.slider("IoU Threshold", 0.1, 0.9, 0.45, 0.05)
 
@@ -151,10 +151,18 @@ def render_dashboard(counts: Dict[str, int], latency: float = 0.0) -> None:
         st.plotly_chart(fig_pie, use_container_width=True)
 
 # --- MAIN UI ---
-st.markdown("<h1 style='text-align: center; font-size: 3rem;'>🌾 AI Grain Counter System</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #94a3b8; font-size: 1.1rem;'>Real-time AI detection and analysis using YOLOv8.</p>", unsafe_allow_html=True)
+st.markdown("<h1 class='main-title'>🌾 AI Grain Counter</h1>", unsafe_allow_html=True)
+st.markdown("<p class='sub-title'>Precision AI analysis for Agriculture & Seed Quality Control</p>", unsafe_allow_html=True)
 
-mode = st.radio("Choose Input Mode:", ["🖼️ Image Upload", "🎥 Live Webcam"], horizontal=True)
+# Mode Selector in a nice container handled by CSS
+mode = st.radio(
+    "Select Input Source", 
+    ["🖼️ Image Upload", "🎥 Live Real-Time Webcam"], 
+    horizontal=True,
+    help="Choose between processing static photos or live video streams."
+)
+
+st.divider()
 
 if mode == "🖼️ Image Upload":
     col_up, col_res = st.columns([1, 2], gap="large")
@@ -174,7 +182,7 @@ if mode == "🖼️ Image Upload":
             except Exception as e:
                 st.error(f"Failed to process image: {str(e)}")
 
-elif mode == "🎥 Live Webcam":
+elif mode == "🎥 Live Real-Time Webcam":
     col_cam, col_info = st.columns([2, 1], gap="large")
     with col_info:
         st.info("**Instructions:** Click START. Allow camera permissions. The AI will overlay counts in real-time.")
