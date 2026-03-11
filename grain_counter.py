@@ -222,6 +222,11 @@ elif mode == "🎥 Live Webcam":
                         cv2.putText(ann_img, f"{g}: {c}", (20, y), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1)
                         y += 25
                         
+                    # Add Confidence overlay for top item if available
+                    if len(boxes) > 0:
+                        top_conf = float(boxes[0].conf[0].item()) * 100
+                        cv2.putText(ann_img, f"Top Conf: {top_conf:.1f}%", (20, y+10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 1)
+                        
                     return av.VideoFrame.from_ndarray(ann_img, format="bgr24")
                 except Exception as e:
                     # In case of corruption, yield original frame
