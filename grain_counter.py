@@ -164,12 +164,15 @@ if mode == "🖼️ Image Upload":
             
     with col_res:
         if file:
-            # Convert RGB PIL image to BGR for YOLO processing
-            img_array = cv2.cvtColor(np.array(Image.open(file).convert('RGB')), cv2.COLOR_RGB2BGR)
-            with st.spinner("🔍 Processing..."):
-                ann_img, counts, latency = process_frame(img_array)
-                st.image(ann_img, caption="YOLOv8 Annotated", channels="BGR", use_container_width=True)
-    if file: render_dashboard(counts, latency)
+            try:
+                # Convert RGB PIL image to BGR for YOLO processing
+                img_array = cv2.cvtColor(np.array(Image.open(file).convert('RGB')), cv2.COLOR_RGB2BGR)
+                with st.spinner("🔍 Processing..."):
+                    ann_img, counts, latency = process_frame(img_array)
+                    st.image(ann_img, caption="YOLOv8 Annotated", channels="BGR", use_container_width=True)
+                render_dashboard(counts, latency)
+            except Exception as e:
+                st.error(f"Failed to process image: {str(e)}")
 
 elif mode == "🎥 Live Webcam":
     col_cam, col_info = st.columns([2, 1], gap="large")
