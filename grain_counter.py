@@ -10,7 +10,15 @@ from ultralytics import YOLO
 from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, WebRtcMode
 
 # --- CONFIGURATION & SETUP ---
-st.set_page_config(page_title="🌾 AI Grain Counter", layout="wide", page_icon="🌾", initial_sidebar_state="expanded")
+APP_CONFIG = {
+    "title": "🌾 AI Grain Counter",
+    "layout": "wide",
+    "icon": "🌾",
+    "base_model": "yolov8n.pt",
+    "custom_model": "custom_rice_pepper_model.pt"
+}
+
+st.set_page_config(page_title=APP_CONFIG["title"], layout=APP_CONFIG["layout"], page_icon=APP_CONFIG["icon"], initial_sidebar_state="expanded")
 
 # Beautiful Custom CSS
 st.markdown("""
@@ -68,8 +76,8 @@ GRAIN_TYPES = ['Rice', 'Wheat', 'Corn', 'Millet', 'Seeds']
 def load_model():
     # If the custom trained model exists from our script, use it directly!
     # This proves the "train by urself" request works End-to-End.
-    if os.path.exists("custom_rice_pepper_model.pt"):
-        model = YOLO("custom_rice_pepper_model.pt")
+    if os.path.exists(APP_CONFIG["custom_model"]):
+        model = YOLO(APP_CONFIG["custom_model"])
         # Ensure we set the classes explicitly for the UI mappings
         if hasattr(model, 'model') and hasattr(model.model, 'names'):
             model.model.names = {0: 'Rice', 1: 'Pepper'}
@@ -78,7 +86,7 @@ def load_model():
         return model
 
     # Otherwise, fallback to the base model with mock categories.
-    model = YOLO("yolov8n.pt") 
+    model = YOLO(APP_CONFIG["base_model"]) 
     if hasattr(model, 'model') and hasattr(model.model, 'names'):
         model.model.names = {i: GRAIN_TYPES[i % len(GRAIN_TYPES)] for i in range(100)}
     return model
