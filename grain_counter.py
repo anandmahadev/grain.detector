@@ -217,3 +217,12 @@ elif mode == "🎥 Live Webcam":
         webrtc_streamer(key="webcam", mode=WebRtcMode.SENDRECV, video_processor_factory=YOLOVideoProcessor,
                         media_stream_constraints={"video": True, "audio": False}, async_processing=True,
                         rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
+
+# --- FOOTER ---
+st.markdown("<br><hr>", unsafe_allow_html=True)
+st.markdown(
+    "<p style='text-align: center; color: #64748b; font-size: 0.9rem;'>"
+    "&copy; 2026 AI Grain Counter System. Open Source Computer Vision Project.<br>"
+    "Powered by Streamlit, YOLOv8, and OpenCV.</p>",
+    unsafe_allow_html=True
+)
