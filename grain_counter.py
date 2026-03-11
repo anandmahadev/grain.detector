@@ -83,18 +83,19 @@ def render_sidebar():
 
 conf_threshold, iou_threshold = render_sidebar()
 
-from typing import Dict, Tuple
+import time
 
 # --- HELPER FUNCTIONS ---
-def process_frame(img_array: np.ndarray) -> Tuple[np.ndarray, Dict[str, int]]:
+def process_frame(img_array: np.ndarray) -> Tuple[np.ndarray, Dict[str, int], float]:
     """
     Processes an image frame via the YOLO architecture.
     
     Args:
         img_array: Raw NumPy image array initialized in RGB space.
     Returns:
-        Tuple containing the annotated image with overlay boxes, and the resulting mapped dictionary counts.
+        Tuple containing the annotated image with overlay boxes, mapped dictionary counts, and execution latency.
     """
+    start_time = time.time()
     results = model.predict(img_array, conf=conf_threshold, iou=iou_threshold, verbose=False)
     annotated_img = results[0].plot()
     
@@ -103,7 +104,8 @@ def process_frame(img_array: np.ndarray) -> Tuple[np.ndarray, Dict[str, int]]:
         cls_id = int(box.cls[0].item())
         counts[GRAIN_TYPES[cls_id % len(GRAIN_TYPES)]] += 1
         
-    return annotated_img, counts
+    latency = time.time() - start_time
+    return annotated_img, counts, latency
 
 def render_dashboard(counts: Dict[str, int]) -> None:
     """
