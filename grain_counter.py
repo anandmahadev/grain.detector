@@ -1,13 +1,16 @@
 import os
-import cv2
+from typing import Dict, Tuple
+
 import av
+import cv2
 import numpy as np
 import pandas as pd
 import plotly.express as px
 from PIL import Image
+
 import streamlit as st
-from ultralytics import YOLO
 from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, WebRtcMode
+from ultralytics import YOLO
 
 # --- CONFIGURATION & SETUP ---
 APP_CONFIG = {
