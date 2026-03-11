@@ -56,28 +56,32 @@ if hasattr(model, 'model') and hasattr(model.model, 'names'):
     # ensure deterministic order from dict iteration if possible, else sort it or just use values
     GRAIN_TYPES = list(dict.fromkeys(model.model.names.values()))
 
-# --- SIDEBAR: SETTINGS ---
-st.sidebar.markdown("<h1 style='text-align: center;'>🌾 Settings</h1>", unsafe_allow_html=True)
-conf_threshold = st.sidebar.slider("Confidence Threshold", 0.1, 0.9, 0.25, 0.05)
-iou_threshold = st.sidebar.slider("IoU Threshold", 0.1, 0.9, 0.45, 0.05)
+def render_sidebar():
+    st.sidebar.markdown("<h1 style='text-align: center;'>🌾 Settings</h1>", unsafe_allow_html=True)
+    conf = st.sidebar.slider("Confidence Threshold", 0.1, 0.9, 0.25, 0.05)
+    iou = st.sidebar.slider("IoU Threshold", 0.1, 0.9, 0.45, 0.05)
 
-st.sidebar.divider()
-st.sidebar.markdown("### 🛠 System Info")
-info_text = (
-    "**Backend:** Python + OpenCV\n\n"
-    "**AI Model:** Custom YOLOv8\n\n"
-    "**Frontend:** Streamlit"
-) if os.path.exists("custom_rice_pepper_model.pt") else (
-    "**Backend:** Python + OpenCV\n\n"
-    "**AI Model:** Base YOLOv8 Demo\n\n"
-    "**Frontend:** Streamlit"
-)
-st.sidebar.info(info_text)
+    st.sidebar.divider()
+    st.sidebar.markdown("### 🛠 System Info")
+    info_text = (
+        "**Backend:** Python + OpenCV\n\n"
+        "**AI Model:** Custom YOLOv8\n\n"
+        "**Frontend:** Streamlit"
+    ) if os.path.exists("custom_rice_pepper_model.pt") else (
+        "**Backend:** Python + OpenCV\n\n"
+        "**AI Model:** Base YOLOv8 Demo\n\n"
+        "**Frontend:** Streamlit"
+    )
+    st.sidebar.info(info_text)
 
-if not os.path.exists("custom_rice_pepper_model.pt"):
-    st.sidebar.warning("Note: Base Demo Model Loaded. Run the train_custom_yolo.py script to train on real data!")
-else:
-    st.sidebar.success("Custom Rice & Pepper Model Loaded! 🎯")
+    if not os.path.exists("custom_rice_pepper_model.pt"):
+        st.sidebar.warning("Note: Base Demo Model Loaded. Run the train_custom_yolo.py script to train on real data!")
+    else:
+        st.sidebar.success("Custom Rice & Pepper Model Loaded! 🎯")
+        
+    return conf, iou
+
+conf_threshold, iou_threshold = render_sidebar()
 
 from typing import Dict, Tuple
 
