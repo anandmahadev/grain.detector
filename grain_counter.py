@@ -108,6 +108,14 @@ from typing import Dict, Tuple
 
 # --- HELPER FUNCTIONS ---
 def process_frame(img_array: np.ndarray) -> Tuple[np.ndarray, Dict[str, int]]:
+    """
+    Processes an image frame via the YOLO architecture.
+    
+    Args:
+        img_array: Raw NumPy image array initialized in RGB space.
+    Returns:
+        Tuple containing the annotated image with overlay boxes, and the resulting mapped dictionary counts.
+    """
     results = model.predict(img_array, conf=conf_threshold, iou=iou_threshold, verbose=False)
     annotated_img = results[0].plot()
     
@@ -119,6 +127,12 @@ def process_frame(img_array: np.ndarray) -> Tuple[np.ndarray, Dict[str, int]]:
     return annotated_img, counts
 
 def render_dashboard(counts: Dict[str, int]) -> None:
+    """
+    Renders the Streamlit native layout dynamically with live analytical capabilities.
+    
+    Args:
+        counts: Key-Value Dictionary defining dynamic counts of detection entities.
+    """
     st.divider()
     st.markdown("<h2>📊 Live Analytics Dashboard</h2>", unsafe_allow_html=True)
     
