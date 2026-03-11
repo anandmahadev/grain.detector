@@ -192,24 +192,28 @@ elif mode == "🎥 Live Webcam":
                 self.iou = iou_threshold
 
             def recv(self, frame):
-                img = frame.to_ndarray(format="bgr24")
-                results = self.model.predict(img, conf=self.conf, iou=self.iou, verbose=False)
-                ann_img = results[0].plot()
-                
-                boxes = results[0].boxes
-                counts_dict = {g: 0 for g in GRAIN_TYPES}
-                for box in boxes:
-                    counts_dict[GRAIN_TYPES[int(box.cls[0].item()) % len(GRAIN_TYPES)]] += 1
-                
-                # Draw Overlay for real-time visibility 
-                cv2.rectangle(ann_img, (10, 10), (250, 200), (0, 0, 0), -1)
-                cv2.putText(ann_img, f"TOTAL: {len(boxes)}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-                y = 70
-                for g, c in counts_dict.items():
-                    cv2.putText(ann_img, f"{g}: {c}", (20, y), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1)
-                    y += 25
+                try:
+                    img = frame.to_ndarray(format="bgr24")
+                    results = self.model.predict(img, conf=self.conf, iou=self.iou, verbose=False)
+                    ann_img = results[0].plot()
                     
-                return av.VideoFrame.from_ndarray(ann_img, format="bgr24")
+                    boxes = results[0].boxes
+                    counts_dict: Dict[str, int] = {g: 0 for g in GRAIN_TYPES}
+                    for box in boxes:
+                        counts_dict[GRAIN_TYPES[int(box.cls[0].item()) % len(GRAIN_TYPES)]] += 1
+                    
+                    # Draw Overlay for real-time visibility 
+                    cv2.rectangle(ann_img, (10, 10), (250, 200), (0, 0, 0), -1)
+                    cv2.putText(ann_img, f"TOTAL: {len(boxes)}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+                    y = 70
+                    for g, c in counts_dict.items():
+                        cv2.putText(ann_img, f"{g}: {c}", (20, y), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1)
+                        y += 25
+                        
+                    return av.VideoFrame.from_ndarray(ann_img, format="bgr24")
+                except Exception as e:
+                    # In case of corruption, yield original frame
+                    return frame
 
         webrtc_streamer(key="webcam", mode=WebRtcMode.SENDRECV, video_processor_factory=YOLOVideoProcessor,
                         media_stream_constraints={"video": True, "audio": False}, async_processing=True,
