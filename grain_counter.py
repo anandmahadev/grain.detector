@@ -214,9 +214,19 @@ elif mode == "🎥 Live Webcam":
                     # In case of corruption, yield original frame
                     return frame
 
-        webrtc_streamer(key="webcam", mode=WebRtcMode.SENDRECV, video_processor_factory=YOLOVideoProcessor,
-                        media_stream_constraints={"video": True, "audio": False}, async_processing=True,
-                        rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
+        webrtc_streamer(
+            key="webcam", 
+            mode=WebRtcMode.SENDRECV, 
+            video_processor_factory=YOLOVideoProcessor,
+            media_stream_constraints={
+                "video": {
+                    "facingMode": "environment"
+                }, 
+                "audio": False
+            }, 
+            async_processing=True,
+            rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
+        )
 
 # --- FOOTER ---
 st.markdown("<br><hr>", unsafe_allow_html=True)
