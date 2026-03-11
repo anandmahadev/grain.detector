@@ -1,0 +1,5 @@
+sample_rice_pepper_dataset/
+runs/
+__pycache__/
+*.pt
+.venv/
