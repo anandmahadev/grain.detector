@@ -58,54 +58,123 @@ if hasattr(model, 'model') and hasattr(model.model, 'names'):
 
 def render_sidebar():
     st.sidebar.markdown("<div class='sidebar-header'>🌾 Settings</div>", unsafe_allow_html=True)
-    conf = st.sidebar.slider("Confidence Threshold", 0.1, 0.9, 0.25, 0.05)
-    iou = st.sidebar.slider("IoU Threshold", 0.1, 0.9, 0.45, 0.05)
+    engine = st.sidebar.radio("Detection Engine", ["High-Precision (OpenCV)", "YOLO AI (Local)", "Roboflow API (Cloud)"], index=0)
+    
+    conf = st.sidebar.slider("Confidence / Sensitivity", 0.05, 0.95, 0.25, 0.05)
+    iou = st.sidebar.slider("IoU / Separation", 0.05, 0.95, 0.45, 0.05)
+
+    api_key = ""
+    if engine == "Roboflow API (Cloud)":
+        api_key = st.sidebar.text_input("Roboflow API Key", type="password", help="Get your key at roboflow.com")
 
     st.sidebar.divider()
     st.sidebar.markdown("### 🛠 System Info")
-    info_text = (
-        "**Backend:** Python + OpenCV\n\n"
-        "**AI Model:** Custom YOLOv8\n\n"
-        "**Frontend:** Streamlit"
-    ) if os.path.exists("custom_rice_pepper_model.pt") else (
-        "**Backend:** Python + OpenCV\n\n"
-        "**AI Model:** Base YOLOv8 Demo\n\n"
-        "**Frontend:** Streamlit"
-    )
+    info_text = f"**Engine:** {engine}\n\n**Backend:** OpenCV + Python"
     st.sidebar.info(info_text)
 
-    if not os.path.exists("custom_rice_pepper_model.pt"):
-        st.sidebar.warning("Note: Base Demo Model Loaded. Run the train_custom_yolo.py script to train on real data!")
-    else:
-        st.sidebar.success("Custom Rice & Pepper Model Loaded! 🎯")
+    if engine == "YOLO AI (Local)" and not os.path.exists("custom_rice_pepper_model.pt"):
+        st.sidebar.warning("Note: Base YOLO Demo Model Loaded. Using OpenCV mode is recommended for exact grain counting!")
         
-    return conf, iou
+    return conf, iou, engine, api_key
 
-conf_threshold, iou_threshold = render_sidebar()
+conf_threshold, iou_threshold, selected_engine, r_api_key = render_sidebar()
 
 import time
 
+def count_grains_opencv(img: np.ndarray) -> Tuple[np.ndarray, int]:
+    """High-precision grain counting using Watershed algorithm."""
+    # Preprocessing
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    
+    # Adaptive thresholding to handle uneven lighting
+    thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 21, 5)
+    
+    # Noise removal
+    kernel = np.ones((3,3), np.uint8)
+    opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel, iterations=2)
+    
+    # Sure background area
+    sure_bg = cv2.dilate(opening, kernel, iterations=3)
+    
+    # Finding sure foreground area
+    dist_transform = cv2.distanceTransform(opening, cv2.DIST_L2, 5)
+    # Sensitivity adjusted by slider
+    _, sure_fg = cv2.threshold(dist_transform, (1.0 - conf_threshold) * dist_transform.max(), 255, 0)
+    
+    # Finding unknown region
+    sure_fg = np.uint8(sure_fg)
+    unknown = cv2.subtract(sure_bg, sure_fg)
+    
+    # Marker labelling
+    _, markers = cv2.connectedComponents(sure_fg)
+    markers = markers + 1
+    markers[unknown == 255] = 0
+    
+    # Apply Watershed
+    markers = cv2.watershed(img, markers)
+    
+    # Draw results
+    img_res = img.copy()
+    count = 0
+    for label in np.unique(markers):
+        if label <= 1: continue # background/unknown
+        
+        # Create a mask for each label
+        mask = np.zeros(gray.shape, dtype="uint8")
+        mask[markers == label] = 255
+        
+        # Find contours
+        cnts, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        if cnts:
+            c = max(cnts, key=cv2.contourArea)
+            if cv2.contourArea(c) > 20: # filter very small noise
+                cv2.drawContours(img_res, [c], -1, (0, 255, 0), 2)
+                # Bounding box
+                x, y, w, h = cv2.boundingRect(c)
+                cv2.putText(img_res, str(count+1), (x, y-5), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 0), 1)
+                count += 1
+                
+    return img_res, count
+
 # --- HELPER FUNCTIONS ---
 def process_frame(img_array: np.ndarray) -> Tuple[np.ndarray, Dict[str, int], float]:
-    """
-    Processes an image frame via the YOLO architecture.
-    
-    Args:
-        img_array: Raw NumPy image array initialized in RGB space.
-    Returns:
-        Tuple containing the annotated image with overlay boxes, mapped dictionary counts, and execution latency.
-    """
     start_time = time.time()
-    results = model.predict(img_array, conf=conf_threshold, iou=iou_threshold, verbose=False)
-    annotated_img = results[0].plot()
     
-    counts: Dict[str, int] = {grain: 0 for grain in GRAIN_TYPES}
-    for box in results[0].boxes:
-        cls_id = int(box.cls[0].item())
-        counts[GRAIN_TYPES[cls_id % len(GRAIN_TYPES)]] += 1
+    if selected_engine == "High-Precision (OpenCV)":
+        ann_img, total_count = count_grains_opencv(img_array)
+        counts = {"Grains": total_count}
+        
+    elif selected_engine == "Roboflow API (Cloud)":
+        if not r_api_key:
+            return img_array, {"Error": 0}, 0.0
+        try:
+            from inference_sdk import InferenceHTTPClient
+            CLIENT = InferenceHTTPClient(base_url="https://detect.roboflow.com", api_key=r_api_key)
+            # Using a generic public rice counting model
+            result = CLIENT.infer(img_array, model_id="counting-rice-grains/1")
+            
+            # Simple drawing for Roboflow result
+            ann_img = img_array.copy()
+            total = 0
+            for pred in result["predictions"]:
+                x, y, w, h = int(pred["x"]), int(pred["y"]), int(pred["width"]), int(pred["height"])
+                cv2.rectangle(ann_img, (x-w//2, y-h//2), (x+w//2, y+h//2), (0, 255, 255), 2)
+                total += 1
+            counts = {"Rice/Grains": total}
+        except Exception as e:
+            st.error(f"Roboflow API Error: {str(e)}")
+            return img_array, {"API Error": 0}, 0.0
+            
+    else: # YOLO AI (Local)
+        results = model.predict(img_array, conf=conf_threshold, iou=iou_threshold, verbose=False)
+        ann_img = results[0].plot()
+        counts = {grain: 0 for grain in GRAIN_TYPES}
+        for box in results[0].boxes:
+            cls_id = int(box.cls[0].item())
+            counts[GRAIN_TYPES[cls_id % len(GRAIN_TYPES)]] += 1
         
     latency = time.time() - start_time
-    return annotated_img, counts, latency
+    return ann_img, counts, latency
 
 def render_dashboard(counts: Dict[str, int], latency: float = 0.0) -> None:
     """
