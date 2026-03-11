@@ -107,12 +107,13 @@ def process_frame(img_array: np.ndarray) -> Tuple[np.ndarray, Dict[str, int], fl
     latency = time.time() - start_time
     return annotated_img, counts, latency
 
-def render_dashboard(counts: Dict[str, int]) -> None:
+def render_dashboard(counts: Dict[str, int], latency: float = 0.0) -> None:
     """
     Renders the Streamlit native layout dynamically with live analytical capabilities.
     
     Args:
         counts: Key-Value Dictionary defining dynamic counts of detection entities.
+        latency: Time taken to process the image frame.
     """
     st.divider()
     st.markdown("<h2>📊 Live Analytics Dashboard</h2>", unsafe_allow_html=True)
@@ -124,6 +125,14 @@ def render_dashboard(counts: Dict[str, int]) -> None:
         <div class="metric-card">
             <div class="metric-label">Total Grains</div>
             <div class="metric-value">{sum(counts.values())}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        st.markdown(f"""
+        <div class="metric-card" style="padding: 15px;">
+            <div class="metric-label" style="font-size: 0.9rem;">Processing Time</div>
+            <div class="metric-value" style="font-size: 2rem;">{latency:.2f}s</div>
         </div>
         """, unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
@@ -158,9 +167,9 @@ if mode == "🖼️ Image Upload":
             # Convert RGB PIL image to BGR for YOLO processing
             img_array = cv2.cvtColor(np.array(Image.open(file).convert('RGB')), cv2.COLOR_RGB2BGR)
             with st.spinner("🔍 Processing..."):
-                ann_img, counts = process_frame(img_array)
+                ann_img, counts, latency = process_frame(img_array)
                 st.image(ann_img, caption="YOLOv8 Annotated", channels="BGR", use_container_width=True)
-    if file: render_dashboard(counts)
+    if file: render_dashboard(counts, latency)
 
 elif mode == "🎥 Live Webcam":
     col_cam, col_info = st.columns([2, 1], gap="large")
