@@ -24,54 +24,11 @@ APP_CONFIG = {
 st.set_page_config(page_title=APP_CONFIG["title"], layout=APP_CONFIG["layout"], page_icon=APP_CONFIG["icon"], initial_sidebar_state="expanded")
 
 # Beautiful Custom CSS
-st.markdown("""
-<style>
-    .block-container { padding-top: 1rem; padding-bottom: 2rem; }
-    .metric-card {
-        background: linear-gradient(135deg, #1e293b, #0f172a);
-        padding: 25px;
-        border-radius: 15px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-        text-align: center;
-        border: 1px solid #334155;
-        transition: transform 0.3s ease;
-    }
-    .metric-card:hover { 
-        transform: translateY(-5px); 
-        box-shadow: 0 15px 20px -5px rgba(59, 130, 246, 0.4); 
-        border-color: #60a5fa; 
-    }
-    .metric-value { 
-        font-size: 3.5rem; 
-        font-weight: 800; 
-        background: -webkit-linear-gradient(45deg, #4ade80, #3b82f6);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-    .metric-label { 
-        font-size: 1.1rem; 
-        color: #94a3b8; 
-        text-transform: uppercase; 
-        letter-spacing: 1.5px;
-        margin-bottom: 10px;
-    }
-    .stDownloadButton > button {
-        width: 100%;
-        border-radius: 8px;
-        background: linear-gradient(90deg, #10b981, #059669);
-        color: white;
-        font-weight: bold;
-        padding: 12px;
-        border: none;
-        transition: all 0.3s;
-    }
-    .stDownloadButton > button:hover {
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.5);
-        transform: scale(1.02);
-    }
-    h1, h2, h3 { color: #f8fafc; font-family: 'Inter', sans-serif; }
-</style>
-""", unsafe_allow_html=True)
+try:
+    with open('style.css', 'r') as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+except FileNotFoundError:
+    pass  # Allow fallback if run from different dir
 
 @st.cache_resource
 def load_model():
