@@ -32,6 +32,10 @@ except FileNotFoundError:
 
 @st.cache_resource
 def load_model():
+    """
+    Loads the YOLOv8 model. Priorities the custom trained model if it exists,
+    otherwise falls back to the official YOLOv8n model with mock classes.
+    """
     # If the custom trained model exists from our script, use it directly!
     # This proves the "train by urself" request works End-to-End.
     if os.path.exists(APP_CONFIG["custom_model"]):
@@ -42,6 +46,7 @@ def load_model():
         return model
 
     # Otherwise, fallback to the base model with mock categories.
+    # This ensures the app is functional even without a custom model file.
     model = YOLO(APP_CONFIG["base_model"]) 
     if hasattr(model, 'model') and hasattr(model.model, 'names'):
         # Mock class names for demonstration purposes
