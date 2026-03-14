@@ -89,10 +89,10 @@ import time
 def count_grains_opencv(img: np.ndarray) -> Tuple[np.ndarray, int]:
     """High-precision grain counting using Watershed algorithm."""
     # Preprocessing
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
     # Adaptive thresholding to handle uneven lighting
-    thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 21, 5)
+    thresh = cv2.adaptiveThreshold(gray_image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 21, 5)
     
     # Noise removal
     kernel = np.ones((3,3), np.uint8)
@@ -119,13 +119,13 @@ def count_grains_opencv(img: np.ndarray) -> Tuple[np.ndarray, int]:
     markers = cv2.watershed(img, markers)
     
     # Draw results
-    img_res = img.copy()
+    result_image = img.copy()
     count = 0
     for label in np.unique(markers):
         if label <= 1: continue # background/unknown
         
         # Create a mask for each label
-        mask = np.zeros(gray.shape, dtype="uint8")
+        mask = np.zeros(gray_image.shape, dtype="uint8")
         mask[markers == label] = 255
         
         # Find contours
@@ -133,13 +133,13 @@ def count_grains_opencv(img: np.ndarray) -> Tuple[np.ndarray, int]:
         if cnts:
             c = max(cnts, key=cv2.contourArea)
             if cv2.contourArea(c) > 20: # filter very small noise
-                cv2.drawContours(img_res, [c], -1, (0, 255, 0), 2)
+                cv2.drawContours(result_image, [c], -1, (0, 255, 0), 2)
                 # Bounding box
                 x, y, w, h = cv2.boundingRect(c)
-                cv2.putText(img_res, str(count+1), (x, y-5), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 0), 1)
+                cv2.putText(result_image, str(count+1), (x, y-5), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 0), 1)
                 count += 1
                 
-    return img_res, count
+    return result_image, count
 
 # --- HELPER FUNCTIONS ---
 def process_frame(img_array: np.ndarray) -> Tuple[np.ndarray, Dict[str, int], float]:
