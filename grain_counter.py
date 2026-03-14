@@ -18,7 +18,9 @@ APP_CONFIG = {
     "layout": "wide",
     "icon": "🌾",
     "base_model": "yolov8n.pt",
-    "custom_model": "custom_rice_pepper_model.pt"
+    "custom_model": "custom_rice_pepper_model.pt",
+    "version": "1.1.0",
+    "developer": "Anand Mahadev"
 }
 
 st.set_page_config(page_title=APP_CONFIG["title"], layout=APP_CONFIG["layout"], page_icon=APP_CONFIG["icon"], initial_sidebar_state="expanded")
