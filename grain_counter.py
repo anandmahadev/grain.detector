@@ -76,7 +76,7 @@ def render_sidebar():
 
     st.sidebar.divider()
     st.sidebar.markdown("### 🛠 System Info")
-    info_text = f"**Engine:** {engine}\n\n**Backend:** OpenCV + Python"
+    info_text = f"**Engine:** {engine}\n\n**Backend:** OpenCV + Python\n\n**Version:** {APP_CONFIG['version']}\n\n**Developer:** {APP_CONFIG['developer']}"
     st.sidebar.info(info_text)
 
     if engine == "YOLO AI (Local)" and not os.path.exists("custom_rice_pepper_model.pt"):
