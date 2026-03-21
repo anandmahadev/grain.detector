@@ -1,44 +1,60 @@
-# AI Grain Counter 🌾
+# 🌾 AI Grain Counter (VisionOS v1.2.0)
 
-A fully functional web application that uses YOLOv8 to automatically detect, count, and classify different grains (Rice, Pepper, etc.) in real-time or via image uploads.
+[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red.svg)](https://streamlit.io/)
+[![YOLOv8](https://img.shields.io/badge/YOLO-v8.0-green.svg)](https://ultralytics.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## Features
-- **Real-time WebRTC Video Tracking**
-- **Static Image Upload Support**
-- **Custom Trained YOLOv8 Nano Data Integration**
-- **Live Analytical Dashboard with Plotly**
-- **CSV Data Export**
+A high-performance computer vision application for automated grain detection, counting, and classification. Leveraging **YOLOv8** and **OpenCV**, this system provides real-time analytical insights for agricultural seed quality control.
 
-## Installation
-Run the automatic install sequence:
-```bash
-run_all.bat
+## ✨ Core Features
+- **Dual Detection Engine**: Toggle between high-precision Watershed (OpenCV) and intelligent Object Detection (YOLOv8).
+- **Real-Time WebRTC**: Process live video streams with ultra-low latency directly in the browser.
+- **Analytical Dashboard**: Live Plotly charts displaying count breakdowns and detection distributions.
+- **Export Ready**: One-click CSV export for downstream data analysis and reporting.
+- **Dark Mode Optimized**: Premium UI with glassmorphism aesthetics and responsive design.
+
+## 🏗 System Architecture
+```mermaid
+graph LR
+    A[Input Source] --> B{Streamlit UI}
+    B --> C[OpenCV Pipeline]
+    B --> D[YOLOv8 Engine]
+    C --> E[Watershed Algorithm]
+    D --> F[Neuro-Weights (PT)]
+    E --> G[Visual Overlay]
+    F --> G[Visual Overlay]
+    G --> H[Analytical Dashboard]
 ```
-Alternatively, manually install via pip:
+
+## 🚀 Quick Start
+
+### Standard Installation
+1. **Clone the Repo:**
+   ```bash
+   git clone https://github.com/anandmahadev/grain.detector.git
+   cd grain.detector
+   ```
+2. **Execute Automation Script:**
+   ```bash
+   run_all.bat
+   ```
+   *This will handle environment setup, dependency installation, and launch the application.*
+
+### Manual Setup
 ```bash
 pip install -r requirements.txt
 streamlit run grain_counter.py
 ```
 
-## Running Tests
-Run the established suite via Pytest:
+## 🧪 Testing Suite
+Maintain system integrity with our automated test suite:
 ```bash
-pip install pytest
 pytest tests/
 ```
 
-## 🚀 Deployment
+## 🛡 Security & Compliance
+We follow strict development standards. Please refer to our [SECURITY.md](SECURITY.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for more details.
 
-The absolute best place to deploy this app for **free** is **Streamlit Community Cloud**. Since your code is already pushed to GitHub, it takes about 2 minutes to get it live worldwide:
-
-1. Go to [share.streamlit.io](https://share.streamlit.io/) and log in with your GitHub account.
-2. Click **"New app"**.
-3. Fill in the details:
-   - **Repository**: `anandmahadev/grain.detector`
-   - **Branch**: `main`
-   - **Main file path**: `grain_counter.py`
-4. Click **"Deploy!"**
-
-Streamlit will automatically read your `requirements.txt` file, install YOLOv8 and all dependencies, and host your AI Grain Counter on a public URL!
-
-*(Alternative: You can also deploy this exact repository to [Hugging Face Spaces](https://huggingface.co/spaces) using the Streamlit space template)*
+---
+Developed with ❤️ by **Anand Mahadev**
