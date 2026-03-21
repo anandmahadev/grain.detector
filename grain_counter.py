@@ -34,36 +34,28 @@ try:
 except FileNotFoundError:
     pass  # Allow fallback if run from different dir
 
-@st.cache_resource
+@st.cache_resource(show_spinner="⏳ Initializing AI Engine...")
 def load_model():
     """
-    Loads the YOLOv8 model. Priorities the custom trained model if it exists,
-    otherwise falls back to the official YOLOv8n model with mock classes.
+    Loads the YOLOv8 model with optimized performance config.
+    Prioritizes the custom trained model if it exists.
     """
-    # If the custom trained model exists from our script, use it directly!
-    # This proves the "train by urself" request works End-to-End.
-    if os.path.exists(APP_CONFIG["custom_model"]):
-        model = YOLO(APP_CONFIG["custom_model"])
-        # Ensure we set the classes explicitly for the UI mappings
-        if hasattr(model, 'model') and hasattr(model.model, 'names'):
-            model.model.names = {0: 'Rice', 1: 'Pepper'}
-        return model
-
-    # Otherwise, fallback to the base model with mock categories.
-    # This ensures the app is functional even without a custom model file.
-    model = YOLO(APP_CONFIG["base_model"]) 
+    model_path = APP_CONFIG["custom_model"] if os.path.exists(APP_CONFIG["custom_model"]) else APP_CONFIG["base_model"]
+    model = YOLO(model_path)
+    
+    # Standardize classes for Rice and Pepper specifically for this app context.
+    # This provides a consistent developer experience across models.
     if hasattr(model, 'model') and hasattr(model.model, 'names'):
-        # Mock class names for demonstration purposes
-        mock_names = ['Rice', 'Wheat', 'Corn', 'Millet', 'Seeds']
-        model.model.names = {i: mock_names[i % len(mock_names)] for i in range(100)}
+        if os.path.exists(APP_CONFIG["custom_model"]):
+            model.model.names = {0: 'Rice', 1: 'Pepper'}
+        else:
+            # Demonstration mappings for base model
+            mock_names = ['Rice', 'Wheat', 'Seed', 'Pepper', 'Grain']
+            model.model.names = {i: mock_names[i % len(mock_names)] for i in range(100)}
     return model
 
 model = load_model()
-GRAIN_TYPES = list(set(model.names.values()) if hasattr(model, 'names') else ['Rice', 'Pepper'])
-# If YOLO stored them internally in model.model.names
-if hasattr(model, 'model') and hasattr(model.model, 'names'):
-    # ensure deterministic order from dict iteration if possible, else sort it or just use values
-    GRAIN_TYPES = list(dict.fromkeys(model.model.names.values()))
+GRAIN_TYPES = list(dict.fromkeys(model.names.values())) if hasattr(model, 'names') else ['Rice', 'Pepper']
 
 def render_sidebar():
     st.sidebar.markdown("<div class='sidebar-header'>🌾 Settings</div>", unsafe_allow_html=True)
