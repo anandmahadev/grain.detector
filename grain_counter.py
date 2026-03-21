@@ -10,20 +10,7 @@ from PIL import Image
 
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, WebRtcMode
-from ultralytics import YOLO
-from src.engine import count_grains_opencv
-
-
-# --- CONFIGURATION & SETUP ---
-APP_CONFIG = {
-    "title": "🌾 AI Grain Counter",
-    "layout": "wide",
-    "icon": "🌾",
-    "base_model": "yolov8n.pt",
-    "custom_model": "custom_rice_pepper_model.pt",
-    "version": "1.1.0",
-    "developer": "Anand Mahadev"
-}
+from src.engine import count_grains_opencv, APP_CONFIG, load_model
 
 st.set_page_config(page_title=APP_CONFIG["title"], layout=APP_CONFIG["layout"], page_icon=APP_CONFIG["icon"], initial_sidebar_state="expanded")
 
@@ -33,26 +20,6 @@ try:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 except FileNotFoundError:
     pass  # Allow fallback if run from different dir
-
-@st.cache_resource(show_spinner="⏳ Initializing AI Engine...")
-def load_model():
-    """
-    Loads the YOLOv8 model with optimized performance config.
-    Prioritizes the custom trained model if it exists.
-    """
-    model_path = APP_CONFIG["custom_model"] if os.path.exists(APP_CONFIG["custom_model"]) else APP_CONFIG["base_model"]
-    model = YOLO(model_path)
-    
-    # Standardize classes for Rice and Pepper specifically for this app context.
-    # This provides a consistent developer experience across models.
-    if hasattr(model, 'model') and hasattr(model.model, 'names'):
-        if os.path.exists(APP_CONFIG["custom_model"]):
-            model.model.names = {0: 'Rice', 1: 'Pepper'}
-        else:
-            # Demonstration mappings for base model
-            mock_names = ['Rice', 'Wheat', 'Seed', 'Pepper', 'Grain']
-            model.model.names = {i: mock_names[i % len(mock_names)] for i in range(100)}
-    return model
 
 model = load_model()
 GRAIN_TYPES = list(dict.fromkeys(model.names.values())) if hasattr(model, 'names') else ['Rice', 'Pepper']
