@@ -160,13 +160,17 @@ def render_dashboard(counts: Dict[str, int], latency: float = 0.0) -> None:
         st.download_button("📥 Export Results (.CSV)", df.to_csv(index=False).encode('utf-8'), "grain_analysis.csv", "text/csv")
         
     with col2:
-        fig_bar = px.bar(df, x="Grain Type", y="Count", color="Grain Type", title="Count Breakdown")
-        fig_bar.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", font=dict(color="#f8fafc"))
+        fig_bar = px.bar(df, x="Grain Type", y="Count", color="Count", 
+                         title="Count Breakdown", color_continuous_scale="Viridis")
+        fig_bar.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", 
+                              font=dict(color="#f8fafc"), margin=dict(t=40, b=0, l=0, r=0))
         st.plotly_chart(fig_bar, use_container_width=True)
         
     with col3:
-        fig_pie = px.pie(df, names="Grain Type", values="Count", hole=0.5, title="Distribution")
-        fig_pie.update_layout(paper_bgcolor="rgba(0,0,0,0)", font=dict(color="#f8fafc"))
+        fig_pie = px.pie(df, names="Grain Type", values="Count", hole=0.6, 
+                         title="Detection Distribution")
+        fig_pie.update_layout(paper_bgcolor="rgba(0,0,0,0)", font=dict(color="#f8fafc"),
+                               margin=dict(t=40, b=0, l=0, r=0))
         st.plotly_chart(fig_pie, use_container_width=True)
 
 # --- MAIN UI ---
