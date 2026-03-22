@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "grain-detector"
+version = "1.2.0"
+authors = [
+  { name="Anand Mahadev", email="contact@anandmahadev.com" },
+]
+description = "AI-powered grain counting and classification system using YOLOv8 and OpenCV"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
+dependencies = [
+    "streamlit>=1.28.0",
+    "ultralytics>=8.0.0",
+    "opencv-python-headless",
+    "numpy",
+    "pandas",
+    "plotly",
+    "pillow",
+    "streamlit-webrtc",
+    "PyAV",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "isort",
+    "mypy",
+    "flake8",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py39']
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
