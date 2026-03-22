@@ -1,9 +1,13 @@
+# --- Python / ML ---
 *.py[cod]
 *$py.class
 __pycache__/
 *.so
 .Python
 env/
+.env
+.venv/
+venv/
 build/
 develop-eggs/
 dist/
@@ -19,12 +23,23 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
+
+# --- ML Specific ---
 sample_rice_pepper_dataset/
 runs/
 *.pt
-.venv/
+*.onnx
+*.engine
 .pytest_cache/
+
+# --- IDE / OS ---
 .vscode/
 .idea/
 *.log
 .DS_Store
+Thumbs.db
+
+# --- Project Specific ---
+grain_analysis.csv
+temp_video.mp4
