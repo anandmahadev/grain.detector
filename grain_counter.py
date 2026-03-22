@@ -57,9 +57,9 @@ def process_frame(img_array: np.ndarray) -> Tuple[np.ndarray, Dict[str, int], fl
     start_time = time.time()
     
     if selected_engine == "High-Precision (OpenCV)":
-        ann_img, total_count = count_grains_opencv(img_array, conf_threshold)
-
-        counts = {"Grains": total_count}
+        result = count_grains_opencv(img_array, conf_threshold)
+        ann_img = result.annotated_image
+        counts = result.counts
         
     elif selected_engine == "Roboflow API (Cloud)":
         if not r_api_key:
