@@ -15,4 +15,4 @@ When reporting:
 
 ## Response Time
 
-We aim to acknowledge all security reports within 1-2 business days and provide a fix or mitigation plan as soon as possible.
+We aim to acknowledge all security reports within 1-2 business days and provide a fix or mitigation plan as soon as possible. Critical vulnerabilities will receive priority.
