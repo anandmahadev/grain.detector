@@ -1,4 +1,5 @@
 # --- Python / ML ---
+# Ignore standard Python compiled files and environment artifacts
 *.py[cod]
 *$py.class
 __pycache__/
