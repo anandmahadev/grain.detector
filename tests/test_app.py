@@ -35,3 +35,8 @@ def test_static_assets():
     with open("style.css", "r") as f:
         content = f.read()
         assert len(content) > 0, "Stylesheet cannot be empty"
+
+def test_app_version_format():
+    """Verify application version is a valid string."""
+    assert "version" in APP_CONFIG
+    assert isinstance(APP_CONFIG["version"], str)
