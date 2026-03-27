@@ -94,4 +94,5 @@ Contributions are what make the open source community such an amazing place to l
 5. Open a Pull Request
 
 ---
-Developed with ❤️ by **Anand Mahadev**
+Developed with ❤️ by **Anand Mahadev**  
+*Optimized for high-speed agricultural analysis.*
