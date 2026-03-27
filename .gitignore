@@ -43,3 +43,10 @@ Thumbs.db
 # --- Project Specific ---
 grain_analysis.csv
 temp_video.mp4
+
+# --- Maintenance and Other ---
+.coverage
+.ipynb_checkpoints/
+*.db
+*.sqlite
+*.swp
