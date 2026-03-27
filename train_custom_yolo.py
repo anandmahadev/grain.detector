@@ -10,8 +10,8 @@ import cv2
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
 # 1. Setup Dataset Directory Structure
-dataset_dir = os.path.abspath("sample_rice_pepper_dataset")
-dirs = ['images/train', 'images/val', 'labels/train', 'labels/val']
+dataset_dir: str = os.path.abspath("sample_rice_pepper_dataset")
+dirs: list[str] = ['images/train', 'images/val', 'labels/train', 'labels/val']
 for d in dirs:
     os.makedirs(os.path.join(dataset_dir, d), exist_ok=True)
 
