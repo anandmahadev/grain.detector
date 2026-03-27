@@ -66,6 +66,7 @@ logging.info("🚀 STARTING YOLOv8 CUSTOM TRAINING PIPELINE")
 logging.info("===================================================")
 
 # 5. Execute Training
+logging.info("Initializing neural network training on local device.")
 model = YOLO("yolov8n.pt") # Start with base nano model
 results = model.train(
     data=yaml_path, 
