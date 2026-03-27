@@ -26,6 +26,7 @@ GRAIN_TYPES = list(dict.fromkeys(model.names.values())) if hasattr(model, 'names
 
 def render_sidebar():
     st.sidebar.markdown("<div class='sidebar-header'>🌾 Settings</div>", unsafe_allow_html=True)
+    # Allows selection between fast OpenCV methods and powerful YOLO AI models.
     engine = st.sidebar.radio("Detection Engine", ["High-Precision (OpenCV)", "YOLO AI (Local)", "Roboflow API (Cloud)"], index=0)
     
     conf = st.sidebar.slider("Confidence / Sensitivity", 0.05, 0.95, 0.25, 0.05)
