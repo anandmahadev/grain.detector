@@ -71,7 +71,7 @@ streamlit run grain_counter.py
 ```
 
 ## 🧪 Testing Suite
-Maintain system integrity with our automated test suite:
+Maintain system integrity with our automated test suite, which now includes static asset validation and core logic checks:
 ```bash
 pytest tests/
 ```
