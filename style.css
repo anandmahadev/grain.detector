@@ -139,6 +139,7 @@
     background-clip: text;
     margin-bottom: 0.2rem !important;
     letter-spacing: -2px;
+    max-width: 100%;
 }
 
 .sub-title {
