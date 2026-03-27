@@ -28,3 +28,10 @@ def test_process_frame_output_structure():
     # Assert counts mapping holds true
     for key in counts.keys():
         assert key in GRAIN_TYPES
+
+def test_static_assets():
+    """Verify presence of core aesthetic assets."""
+    assert os.path.exists("style.css"), "Main UI stylesheet is missing!"
+    with open("style.css", "r") as f:
+        content = f.read()
+        assert len(content) > 0, "Stylesheet cannot be empty"
