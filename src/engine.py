@@ -81,6 +81,7 @@ def count_grains_opencv(img: np.ndarray, sensitivity: float) -> DetectionResult:
     )
     
     # Morphological operations (Noise removal)
+    # Using a 3x3 kernel for standard grain sizes.
     kernel = np.ones((3,3), np.uint8)
     opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel, iterations=2)
     
