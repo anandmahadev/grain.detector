@@ -122,6 +122,12 @@
     font-weight: 800;
     letter-spacing: 1.5px;
     text-align: center;
+    transition: var(--transition-smooth);
+}
+
+.sidebar-header:hover {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 15px var(--glow-color);
 }
 
 /* Title Styling */
