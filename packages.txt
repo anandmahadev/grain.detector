@@ -1,3 +1,4 @@
+# System-level dependencies for computer vision and video processing
 libavformat-dev
 libavcodec-dev
 libavdevice-dev
