@@ -1,7 +1,16 @@
 import pytest
 import numpy as np
 import cv2
-from src.engine import count_grains_opencv, DetectionResult
+from src.engine import count_grains_opencv, DetectionResult, preprocess_image
+
+def test_preprocess_image():
+    """Verify that preprocess_image correctly resizes images."""
+    mock_img = np.zeros((100, 200, 3), dtype=np.uint8)
+    target_size = (640, 640)
+    processed = preprocess_image(mock_img, target_size)
+    
+    assert processed.shape == (640, 640, 3)
+    assert preprocess_image(None) is None
 
 def test_opencv_engine_with_black_image():
     """Verify that the engine handles black (empty) images correctly."""
