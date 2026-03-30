@@ -38,6 +38,8 @@ runs/
 .vscode/
 .idea/
 *.log
+*.out
+*.err
 .DS_Store
 Thumbs.db
 
