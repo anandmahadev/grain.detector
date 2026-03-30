@@ -59,6 +59,18 @@ def load_model() -> YOLO:
         logger.error(f"Failed to load YOLO model: {e}")
         raise RuntimeError(f"Engine initialization failed: {e}")
 
+def preprocess_image(img: np.ndarray, target_size: Tuple[int, int] = (640, 640)) -> np.ndarray:
+    """
+    Standardize the image input for processing.
+    
+    Args:
+        img: Input BGR image.
+        target_size: Desired output dimensions.
+    """
+    if img is None:
+        return None
+    return cv2.resize(img, target_size, interpolation=cv2.INTER_AREA)
+
 def count_grains_opencv(img: np.ndarray, sensitivity: float) -> DetectionResult:
     """
     High-precision grain counting using Watershed algorithm with adaptive thresholding.
