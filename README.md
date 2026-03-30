@@ -70,6 +70,16 @@ pip install -r requirements.txt
 streamlit run grain_counter.py
 ```
 
+## 🧠 Model Training
+
+To train the custom YOLOv8 model on your own dataset:
+1.  **Prepare Dataset**: Ensure your dataset is in the `sample_rice_pepper_dataset` directory or update the path in `train_custom_yolo.py`.
+2.  **Run Training Script**:
+    ```bash
+    python train_custom_yolo.py
+    ```
+3.  **Monitor Progress**: Training logs and model weights will be saved in the `runs/` directory.
+
 ## 🧪 Testing Suite
 Maintain system integrity with our automated test suite, which now includes static asset validation and core logic checks:
 ```bash
