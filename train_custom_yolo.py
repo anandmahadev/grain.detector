@@ -7,6 +7,12 @@ from ultralytics import YOLO
 import numpy as np
 import cv2
 
+"""
+YOLOv8 Custom Training Workflow for Grain Detection.
+This script automates synthetic dataset generation, configuration (data.yaml),
+and model training for Rice and Pepper classifications.
+"""
+
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
 # 1. Setup Dataset Directory Structure
