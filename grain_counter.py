@@ -141,6 +141,12 @@ def render_dashboard(counts: Dict[str, int], latency: float = 0.0) -> None:
                                margin=dict(t=40, b=0, l=0, r=0))
         st.plotly_chart(fig_pie, use_container_width=True)
 
+# --- UI ARCHITECTURE ---
+# The application is structured into two primary input modes:
+# 1. 🖼️ Image Upload: For precision batch processing of static photos.
+# 2. 🎥 Live Webcam: For real-time inventory checks and field analysis.
+# Both modes interface with the core AI engine in src/engine.py.
+
 # --- MAIN UI ---
 st.markdown("<h1 class='main-title'>🌾 AI Grain Counter</h1>", unsafe_allow_html=True)
 st.markdown("<p class='sub-title'>Precision AI analysis for Agriculture & Seed Quality Control</p>", unsafe_allow_html=True)
