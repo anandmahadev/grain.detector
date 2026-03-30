@@ -17,6 +17,14 @@ A high-performance computer vision application for automated grain detection, co
 - [🧪 Testing Suite](#-testing-suite)
 - [🛡 Security & Compliance](#-security--compliance)
 - [🤝 Contributing](#-contributing)
+- [🛠 Technology Stack](#-technology-stack)
+
+## 🛠 Technology Stack
+The AI Grain Counter system is built using an industry-standard stack for computer vision and high-performance web applications:
+- **Core Engine:** [YOLOv8](https://ultralytics.com/) for high-speed object detection and [OpenCV](https://opencv.org/) for morphological analysis.
+- **Frontend Framework:** [Streamlit](https://streamlit.io/) for rapid development of interactive data applications.
+- **Deep Learning:** [PyTorch](https://pytorch.org/) backend for neural network inference.
+- **Analytics:** [Plotly](https://plotly.com/) for dynamic real-time data visualization.
 
 ## ✨ Core Features
 - **Dual Detection Engine**: Toggle between high-precision Watershed (OpenCV) and intelligent Object Detection (YOLOv8).
