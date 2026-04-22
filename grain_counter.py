@@ -55,6 +55,16 @@ import time
 
 # --- HELPER FUNCTIONS ---
 def process_frame(img_array: np.ndarray) -> Tuple[np.ndarray, Dict[str, int], float]:
+    """
+    Main processing pipeline for image frames. Handles selection between 
+    OpenCV, Roboflow API, and Local YOLO engines.
+    
+    Args:
+        img_array: The input image as a BGR numpy array.
+        
+    Returns:
+        A tuple containing (annotated_image, grain_counts, processing_latency).
+    """
     start_time = time.time()
     
     if selected_engine == "High-Precision (OpenCV)":
