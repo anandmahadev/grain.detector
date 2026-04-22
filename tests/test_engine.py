@@ -31,7 +31,19 @@ def test_opencv_engine_with_noise():
     for t in [0.1, 0.5, 0.9]:
         result = count_grains_opencv(mock_img, t)
         assert isinstance(result.total_count, int)
-        assert result.metadata["algorithm"] == "Wastershed" or True # Handling typo in metadata if any
+        assert result.metadata["algorithm"] == "Watershed"
+
+def test_opencv_engine_area_threshold():
+    """Verify that small noise is filtered out by area thresholding."""
+    mock_img = np.zeros((200, 200, 3), dtype=np.uint8)
+    # Draw a very tiny dot (noise)
+    cv2.circle(mock_img, (50, 50), 2, (255, 255, 255), -1)
+    # Draw a larger circle (grain)
+    cv2.circle(mock_img, (150, 150), 20, (255, 255, 255), -1)
+    
+    result = count_grains_opencv(mock_img, 0.5)
+    # Should only detect the larger one if area threshold is working
+    assert result.total_count == 1
 
 def test_opencv_engine_invalid_input():
     """Verify system resilience with invalid image inputs."""
