@@ -67,6 +67,14 @@ graph TD
     Dash --> Export[CSV/PDF Reports]
 ```
 
+## 🧠 Core Logic: Adaptive Watershed
+The system's high-precision engine implements a custom **Watershed Algorithm** pipeline:
+1. **Adaptive Thresholding**: Dynamically handles non-uniform illumination.
+2. **Noise Suppression**: Uses morphological opening to remove micro-artifacts.
+3. **Distance Transform**: Calculates Euclidean distance to background for peak detection.
+4. **Marker Labeling**: Identifies individual grain seeds as separate topographic markers.
+5. **Watershed Segmentation**: Floods the distance landscape to find precise grain boundaries.
+
 ## 🚀 Quick Start
 
 ### Automatic Installation (Recommended)
