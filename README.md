@@ -143,6 +143,10 @@ We follow strict development standards. Please refer to our [SECURITY.md](SECURI
 ## 🤝 Contributing
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. 
 
+### Special Thanks
+- **Open Source Community**: For the incredible tools like Streamlit and Ultralytics.
+- **Agricultural Analysts**: For providing the real-world feedback used for calibration.
+
 ## 📅 Release History
 - **v1.2.0**: Initial VisionOS release with YOLOv8 integration.
 - **v1.1.0**: Added analytical dashboard and Plotly charts.
