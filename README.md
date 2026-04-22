@@ -4,9 +4,8 @@
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-FF4B4B.svg)](https://streamlit.io/)
 [![YOLOv8](https://img.shields.io/badge/YOLO-v8.0-00FF00.svg)](https://ultralytics.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/anandmahadev/grain.detector/graphs/commit-activity)
 
-A high-performance computer vision application for automated grain detection, counting, and classification. Leveraging **YOLOv8** and **OpenCV**, this system provides real-time analytical insights for agricultural seed quality control with a focus on ease of use and professional reporting.
+An enterprise-grade computer vision solution for automated grain analysis. This system leverages **YOLOv8** and **Adaptive Watershed Algorithms** to provide precision counting, classification, and real-time analytical reporting for agricultural quality control.
 
 ## 📖 Table of Contents
 - [✨ Core Features](#-core-features)
