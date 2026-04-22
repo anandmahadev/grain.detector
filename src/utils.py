@@ -28,3 +28,15 @@ def convert_to_grayscale(image: np.ndarray) -> np.ndarray:
     if len(image.shape) == 2:
         return image
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+def preprocess_image(img: np.ndarray, target_size: Tuple[int, int] = (640, 640)) -> Optional[np.ndarray]:
+    """
+    Standardize the image input for processing.
+    
+    Args:
+        img: Input BGR image.
+        target_size: Desired output dimensions.
+    """
+    if img is None:
+        return None
+    return cv2.resize(img, target_size, interpolation=cv2.INTER_AREA)
