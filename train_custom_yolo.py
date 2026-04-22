@@ -78,6 +78,11 @@ logging.info("===================================================")
 
 # 5. Execute Training
 logging.info("Initializing neural network training on local device.")
+# Ensure we have at least some images generated
+train_imgs = os.listdir(os.path.join(dataset_dir, "images/train"))
+if not train_imgs:
+    raise FileNotFoundError("Critical Error: No synthetic training images found. Dataset generation likely failed.")
+
 model = YOLO("yolov8n.pt") # Start with base nano model
 results = model.train(
     data=yaml_path, 
