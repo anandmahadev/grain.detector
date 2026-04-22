@@ -23,6 +23,7 @@ except FileNotFoundError:
 
 model = load_model()
 GRAIN_TYPES = list(dict.fromkeys(model.names.values())) if hasattr(model, 'names') else ['Rice', 'Pepper']
+LABEL_STYLE = {"color": (0, 255, 0), "thickness": 2, "font_scale": 0.8}
 
 def render_sidebar() -> Tuple[float, float, str, str]:
     """
