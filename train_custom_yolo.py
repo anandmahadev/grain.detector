@@ -25,7 +25,10 @@ for d in dirs:
 # 3. Generate Synthetic Images & Create Bounding Boxes
 logging.info("Generating synthetic training assets (Rice & Pepper benchmarks)...")
 # We use synthetic images (colored squares) for demo purposes to avoid internet download blocks.
-colors = {0: (200, 200, 200), 1: (50, 50, 50)} # Rice (light), Pepper (dark)
+colors = {
+    0: (200, 200, 200), # Rice (Light Intensity)
+    1: (50, 50, 50)     # Pepper (Dark Intensity)
+}
 
 for class_id in range(2):
     for i in range(3):
