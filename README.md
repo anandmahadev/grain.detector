@@ -98,6 +98,11 @@ pytest tests/
 - **Camera Access**: If the webcam mode fails, ensure your browser has permissions and no other app is using the camera.
 - **Dependency Issues**: Try clearing your environment and re-running `pip install -r requirements.txt`.
 
+## 🗺️ Project Roadmap
+- [ ] **v1.3.0**: Mobile-optimized UI and PWA support.
+- [ ] **v1.4.0**: Batch processing for entire folders of grain images.
+- [ ] **v2.0.0**: Integration with Cloud SQL for historical tracking and trend analysis.
+
 ## 🛡 Security & Compliance
 We follow strict development standards. Please refer to our [SECURITY.md](SECURITY.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for more details.
 
