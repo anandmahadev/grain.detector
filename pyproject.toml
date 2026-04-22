@@ -19,6 +19,11 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Image Processing",
 ]
 keywords = ["computer-vision", "yolov8", "agriculture", "grain-counting", "opencv", "streamlit"]
+
+[project.urls]
+Homepage = "https://github.com/anandmahadev/grain.detector"
+Repository = "https://github.com/anandmahadev/grain.detector.git"
+"Bug Tracker" = "https://github.com/anandmahadev/grain.detector/issues"
 dependencies = [
     "streamlit>=1.28.0",
     "ultralytics>=8.0.0",
