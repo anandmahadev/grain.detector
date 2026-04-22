@@ -148,3 +148,5 @@ def count_grains_opencv(img: np.ndarray, sensitivity: float) -> DetectionResult:
         total_count=count,
         metadata={"algorithm": "Watershed"}
     )
+    # Note: Using adaptiveThreshold instead of global thresholding improves 
+    # robustness against non-uniform field lighting conditions.
