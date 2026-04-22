@@ -77,6 +77,13 @@ logging.info("🚀 STARTING YOLOv8 CUSTOM TRAINING PIPELINE")
 logging.info("===================================================")
 
 # 5. Execute Training
+logging.info("===================================================")
+logging.info("🚀 STARTING YOLOv8 CUSTOM TRAINING PIPELINE")
+logging.info(f"   - Dataset: {dataset_dir}")
+logging.info("   - Epochs: 5")
+logging.info("   - Imgsz: 320")
+logging.info("   - Device: CPU")
+logging.info("===================================================")
 logging.info("Initializing neural network training on local device.")
 # Ensure we have at least some images generated
 train_imgs = os.listdir(os.path.join(dataset_dir, "images/train"))
