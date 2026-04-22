@@ -265,3 +265,4 @@ st.markdown(
     "Powered by Streamlit, YOLOv8, and OpenCV.</p>",
     unsafe_allow_html=True
 )
+# --- End of grain_counter.py ---
