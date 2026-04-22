@@ -32,6 +32,11 @@ The AI Grain Counter system is built using an industry-standard stack for comput
 - **Export Ready**: One-click CSV export for downstream data analysis and reporting.
 - **Dark Mode Optimized**: Premium UI with glassmorphism aesthetics and responsive design.
 
+## 🌾 Supported Grains
+- **Rice**: Optimized for long-grain and basmati varieties.
+- **Pepper**: Calibrated for black and white peppercorn detection.
+- **Seeds**: General-purpose sunflower and coriander seed support.
+
 ## 🏗 System Architecture
 The system utilizes a modular design comprising three main pillars:
 1. **Frontend**: Streamlit-based SPA providing a glassmorphic user interface.
