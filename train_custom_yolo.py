@@ -3,6 +3,7 @@ import urllib.request
 import shutil
 import logging
 from ultralytics import YOLO
+from typing import Dict, Tuple, List
 
 import numpy as np
 import cv2
@@ -25,7 +26,7 @@ for d in dirs:
 # 3. Generate Synthetic Images & Create Bounding Boxes
 logging.info("Generating synthetic training assets (Rice & Pepper benchmarks)...")
 # We use synthetic images (colored squares) for demo purposes to avoid internet download blocks.
-colors = {
+colors: Dict[int, Tuple[int, int, int]] = {
     0: (200, 200, 200), # Rice (Light Intensity)
     1: (50, 50, 50)     # Pepper (Dark Intensity)
 }
