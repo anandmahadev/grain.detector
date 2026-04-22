@@ -38,8 +38,14 @@ APP_CONFIG = {
 @st.cache_resource(show_spinner="⏳ Initializing AI Engine...")
 def load_model() -> YOLO:
     """
-    Loads the YOLOv8 model with optimized performance config.
-    Prioritizes the custom trained model if it exists.
+    Loads the YOLOv8 model with optimized performance configuration.
+    
+    The function prioritizes the custom trained model (`custom_rice_pepper_model.pt`) 
+    if it exists in the root directory. Otherwise, it falls back to the 
+    standard `yolov8n.pt` base model.
+    
+    Returns:
+        YOLO: An initialized Ultralytics YOLO model object.
     """
     try:
         model_path = APP_CONFIG["custom_model"] if os.path.exists(APP_CONFIG["custom_model"]) else APP_CONFIG["base_model"]
