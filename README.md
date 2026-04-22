@@ -24,6 +24,8 @@ The AI Grain Counter system is built using an industry-standard stack for comput
 - **Frontend Framework:** [Streamlit](https://streamlit.io/) for rapid development of interactive data applications.
 - **Deep Learning:** [PyTorch](https://pytorch.org/) backend for neural network inference.
 - **Analytics:** [Plotly](https://plotly.com/) for dynamic real-time data visualization.
+- **Version Control:** Git for source tracking and semantic versioning.
+- **Deployment:** Docker support for standardized, reproducible environments.
 
 ## ✨ Core Features
 - **Dual Detection Engine**: Toggle between high-precision Watershed (OpenCV) and intelligent Object Detection (YOLOv8).
