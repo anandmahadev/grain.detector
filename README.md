@@ -107,6 +107,7 @@ pytest tests/
 - **GPU Acceleration**: If you have an NVIDIA GPU, ensure CUDA is installed for faster YOLO processing.
 - **Camera Access**: If the webcam mode fails, ensure your browser has permissions and no other app is using the camera.
 - **Dependency Issues**: Try clearing your environment and re-running `pip install -r requirements.txt`.
+- **Environment Variables**: For Roboflow API mode, you can optionally set `ROBOFLOW_API_KEY` in your shell to avoid manual entry.
 
 ## 🗺️ Project Roadmap
 - [ ] **v1.3.0**: Mobile-optimized UI and PWA support.
