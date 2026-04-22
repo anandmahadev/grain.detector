@@ -32,7 +32,9 @@
     max-width: 95rem;
 }
 
-/* Premium Glassmorphism Card System */
+/* ==========================================================================
+   METRIC CARDS & ANALYTICS UI
+   ========================================================================== */
 .metric-card {
     background: var(--card-bg);
     backdrop-filter: blur(20px);
