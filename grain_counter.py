@@ -48,6 +48,13 @@ def render_sidebar() -> Tuple[float, float, str, str]:
     info_text = f"**Engine:** {engine}\n\n**Backend:** OpenCV + Python\n\n**Version:** {APP_CONFIG['version']}\n\n**Developer:** {APP_CONFIG['developer']}"
     st.sidebar.info(info_text)
 
+    with st.sidebar.expander("💡 Detection Tips"):
+        st.markdown("""
+        - **Lighting**: Ensure even lighting for the best results.
+        - **Contrast**: Use a contrasting background (e.g., dark for rice).
+        - **Separation**: Minimize grain overlapping for precision results.
+        """)
+
     if engine == "YOLO AI (Local)" and not os.path.exists("custom_rice_pepper_model.pt"):
         st.sidebar.warning("Note: Base YOLO Demo Model Loaded. Using OpenCV mode is recommended for exact grain counting!")
         
