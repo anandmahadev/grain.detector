@@ -33,6 +33,11 @@ The AI Grain Counter system is built using an industry-standard stack for comput
 - **Dark Mode Optimized**: Premium UI with glassmorphism aesthetics and responsive design.
 
 ## 🏗 System Architecture
+The system utilizes a modular design comprising three main pillars:
+1. **Frontend**: Streamlit-based SPA providing a glassmorphic user interface.
+2. **AI Engine**: Python-based core interfacing with YOLOv8 and OpenCV.
+3. **Analytics**: Real-time data processing with Plotly and Pandas.
+
 ```mermaid
 graph TD
     User([User]) --> UI[Streamlit Interface]
