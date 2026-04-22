@@ -61,6 +61,10 @@ def render_sidebar() -> Tuple[float, float, str, str]:
 
     if "YOLO AI (Local)" in engine and not os.path.exists("custom_rice_pepper_model.pt"):
         st.sidebar.warning("Note: Base YOLO Demo Model Loaded. Using OpenCV mode is recommended for exact grain counting!")
+
+    st.sidebar.divider()
+    status_icon = "🟢" if "High-Precision" in engine else "🔵"
+    st.sidebar.markdown(f"**System Status:** {status_icon} Operational")
         
     return conf, iou, engine, api_key
 
