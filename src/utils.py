@@ -40,3 +40,5 @@ def preprocess_image(img: np.ndarray, target_size: Tuple[int, int] = (640, 640))
     if img is None:
         return None
     return cv2.resize(img, target_size, interpolation=cv2.INTER_AREA)
+
+# --- End of utils.py ---
