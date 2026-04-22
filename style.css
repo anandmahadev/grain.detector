@@ -164,6 +164,7 @@
     margin-bottom: 0.2rem !important;
     letter-spacing: -2px;
     max-width: 100%;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
 }
 
 .sub-title {
