@@ -21,3 +21,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Resolved latency issues in real-time camera overlays.
 - Fixed layout responsiveness on ultra-wide monitors.
+
+## [1.3.0] - Planned
+
+### Added
+- Docker containerization for standardized deployment.
+- Initialized dedicated image processing utility module (`src/utils.py`).
+- Added CITING.md for standardized research citations.
+- Introduced real-time system status indicators in the UI.
+
+### Changed
+- Refactored core AI engine to use centralized preprocessing utilities.
+- Enhanced sidebar UI with emoji iconography and descriptive tips.
+- Optimized main title with custom glow effects and premium aesthetics.
+
+### Fixed
+- Corrected metadata typos in the analytical pipeline.
+- Resolved type hinting gaps in the training workflow.

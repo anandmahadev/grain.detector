@@ -3,6 +3,7 @@ import urllib.request
 import shutil
 import logging
 from ultralytics import YOLO
+from typing import Dict, Tuple, List
 
 import numpy as np
 import cv2
@@ -25,7 +26,7 @@ for d in dirs:
 # 3. Generate Synthetic Images & Create Bounding Boxes
 logging.info("Generating synthetic training assets (Rice & Pepper benchmarks)...")
 # We use synthetic images (colored squares) for demo purposes to avoid internet download blocks.
-colors = {
+colors: Dict[int, Tuple[int, int, int]] = {
     0: (200, 200, 200), # Rice (Light Intensity)
     1: (50, 50, 50)     # Pepper (Dark Intensity)
 }
@@ -76,7 +77,19 @@ logging.info("🚀 STARTING YOLOv8 CUSTOM TRAINING PIPELINE")
 logging.info("===================================================")
 
 # 5. Execute Training
+logging.info("===================================================")
+logging.info("🚀 STARTING YOLOv8 CUSTOM TRAINING PIPELINE")
+logging.info(f"   - Dataset: {dataset_dir}")
+logging.info("   - Epochs: 5")
+logging.info("   - Imgsz: 320")
+logging.info("   - Device: CPU")
+logging.info("===================================================")
 logging.info("Initializing neural network training on local device.")
+# Ensure we have at least some images generated
+train_imgs = os.listdir(os.path.join(dataset_dir, "images/train"))
+if not train_imgs:
+    raise FileNotFoundError("Critical Error: No synthetic training images found. Dataset generation likely failed.")
+
 model = YOLO("yolov8n.pt") # Start with base nano model
 results = model.train(
     data=yaml_path, 

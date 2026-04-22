@@ -34,13 +34,17 @@ def render_sidebar() -> Tuple[float, float, str, str]:
     """
     st.sidebar.markdown("<div class='sidebar-header'>🌾 Settings</div>", unsafe_allow_html=True)
     # Allows selection between fast OpenCV methods and powerful YOLO AI models.
-    engine = st.sidebar.radio("Detection Engine", ["High-Precision (OpenCV)", "YOLO AI (Local)", "Roboflow API (Cloud)"], index=0)
+    engine = st.sidebar.radio(
+        "Detection Engine", 
+        ["🧪 High-Precision (OpenCV)", "🧠 YOLO AI (Local)", "☁️ Roboflow API (Cloud)"], 
+        index=0
+    )
     
     conf = st.sidebar.slider("Confidence / Sensitivity", 0.05, 0.95, 0.25, 0.05)
     iou = st.sidebar.slider("IoU / Separation", 0.05, 0.95, 0.45, 0.05)
 
     api_key = ""
-    if engine == "Roboflow API (Cloud)":
+    if "Roboflow API (Cloud)" in engine:
         api_key = st.sidebar.text_input("Roboflow API Key", type="password", help="Get your key at roboflow.com")
 
     st.sidebar.divider()
@@ -55,8 +59,12 @@ def render_sidebar() -> Tuple[float, float, str, str]:
         - **Separation**: Minimize grain overlapping for precision results.
         """)
 
-    if engine == "YOLO AI (Local)" and not os.path.exists("custom_rice_pepper_model.pt"):
+    if "YOLO AI (Local)" in engine and not os.path.exists("custom_rice_pepper_model.pt"):
         st.sidebar.warning("Note: Base YOLO Demo Model Loaded. Using OpenCV mode is recommended for exact grain counting!")
+
+    st.sidebar.divider()
+    status_icon = "🟢" if "High-Precision" in engine else "🔵"
+    st.sidebar.markdown(f"**System Status:** {status_icon} Operational")
         
     return conf, iou, engine, api_key
 
@@ -81,12 +89,12 @@ def process_frame(img_array: np.ndarray) -> Tuple[np.ndarray, Dict[str, int], fl
     """
     start_time = time.time()
     
-    if selected_engine == "High-Precision (OpenCV)":
+    if "High-Precision (OpenCV)" in selected_engine:
         result = count_grains_opencv(img_array, conf_threshold)
         ann_img = result.annotated_image
         counts = result.counts
         
-    elif selected_engine == "Roboflow API (Cloud)":
+    elif "Roboflow API (Cloud)" in selected_engine:
         if not r_api_key:
             return img_array, {"Error": 0}, 0.0
         try:

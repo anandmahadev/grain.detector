@@ -164,6 +164,7 @@
     margin-bottom: 0.2rem !important;
     letter-spacing: -2px;
     max-width: 100%;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
 }
 
 .sub-title {
@@ -198,4 +199,12 @@
 .stTextInput > div > div > input:focus {
     border-color: var(--accent-primary) !important;
     box-shadow: 0 0 10px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Custom Radio Button Styling */
+div[data-testid="stHorizontalBlock"] div[data-testid="column"] .stRadio > div {
+    background: var(--card-bg);
+    padding: 1rem;
+    border-radius: 18px;
+    border: 1px solid var(--glass-border);
 }
