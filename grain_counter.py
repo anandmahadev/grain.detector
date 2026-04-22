@@ -25,6 +25,12 @@ model = load_model()
 GRAIN_TYPES = list(dict.fromkeys(model.names.values())) if hasattr(model, 'names') else ['Rice', 'Pepper']
 
 def render_sidebar() -> Tuple[float, float, str, str]:
+    """
+    Renders the sidebar controls and configuration settings.
+    
+    Returns:
+        tuple: (confidence_threshold, iou_threshold, selected_engine, roboflow_api_key)
+    """
     st.sidebar.markdown("<div class='sidebar-header'>🌾 Settings</div>", unsafe_allow_html=True)
     # Allows selection between fast OpenCV methods and powerful YOLO AI models.
     engine = st.sidebar.radio("Detection Engine", ["High-Precision (OpenCV)", "YOLO AI (Local)", "Roboflow API (Cloud)"], index=0)
