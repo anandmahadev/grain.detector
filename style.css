@@ -128,7 +128,9 @@
     filter: brightness(1.1);
 }
 
-/* Sidebar Refinement */
+/* ==========================================================================
+   SIDEBAR & NAVIGATION REFINEMENT
+   ========================================================================== */
 [data-testid="stSidebar"] {
     background: #020617;
     border-right: 1px solid var(--glass-border);
