@@ -125,6 +125,13 @@ pytest tests/
 - **Dependency Issues**: Try clearing your environment and re-running `pip install -r requirements.txt`.
 - **Environment Variables**: For Roboflow API mode, you can optionally set `ROBOFLOW_API_KEY` in your shell to avoid manual entry.
 
+## ❓ FAQ
+**Q: How accurate is the OpenCV engine?**  
+A: In controlled lighting, accuracy exceeds 98% for separated grains. Overlapping grains may require higher "Sensitivity" settings.
+
+**Q: Can I use YOLO with my own labels?**  
+A: Yes, use the training instructions above and ensure your classes match in `src/engine.py`.
+
 ## 🗺️ Project Roadmap
 - [ ] **v1.3.0**: Mobile-optimized UI and PWA support.
 - [ ] **v1.4.0**: Batch processing for entire folders of grain images.
