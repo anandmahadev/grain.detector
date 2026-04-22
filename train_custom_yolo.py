@@ -18,11 +18,12 @@ logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 # 1. Setup Dataset Directory Structure
 dataset_dir: str = os.path.abspath("sample_rice_pepper_dataset")
 dirs: list[str] = ['images/train', 'images/val', 'labels/train', 'labels/val']
+logging.info(f"Initializing dataset structure at: {dataset_dir}")
 for d in dirs:
     os.makedirs(os.path.join(dataset_dir, d), exist_ok=True)
 
 # 3. Generate Synthetic Images & Create Bounding Boxes
-logging.info("Generating sample images...")
+logging.info("Generating synthetic training assets (Rice & Pepper benchmarks)...")
 # We use synthetic images (colored squares) for demo purposes to avoid internet download blocks.
 colors = {0: (200, 200, 200), 1: (50, 50, 50)} # Rice (light), Pepper (dark)
 
