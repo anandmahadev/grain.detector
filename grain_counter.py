@@ -97,7 +97,7 @@ def process_frame(img_array: np.ndarray) -> Tuple[np.ndarray, Dict[str, int], fl
                 total += 1
             counts = {"Rice/Grains": total}
         except Exception as e:
-            st.error(f"Roboflow API Error: {str(e)}")
+            st.error(f"Roboflow API connection error. Please verify your API Key and internet connectivity. Details: {str(e)}")
             return img_array, {"API Error": 0}, 0.0
             
     else: # YOLO AI (Local)
