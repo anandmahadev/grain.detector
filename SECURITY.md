@@ -1,8 +1,10 @@
 # Security Policy
 
-## Supported Versions
-
-Only the latest version of the Grain Detector is supported for security updates.
+| Version | Supported          |
+| ------- | ------------------ |
+| v1.2.x  | :white_check_mark: |
+| v1.1.x  | :x:                |
+| < v1.1  | :x:                |
 
 ## Reporting a Vulnerability
 
